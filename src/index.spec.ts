@@ -60,72 +60,48 @@ it("Check if cell exists", function () {
     expect(isFoundTwo).toEqual(false);
 });
 
-it("Configuration suivante", function () {
-    let voisins = <Array<Cell>> [];
-    configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-    voisins = removeDuplicates(voisins)
-    let newConfiguration = <Array<Cell>> [];
-    voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-    configuration = newConfiguration
-    expect(newConfiguration).toEqual(false);
-});
-
-it("Cas sous-population (décès tous)", function () {
+it("Cas 1: Sous-population (décès des cellules)", function () {
     let voisins = <Array<Cell>> [];
     let configuration = <Array<Cell>> [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 1, y: 1}
     ];
-    configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-    voisins = removeDuplicates(voisins)
-    let newConfiguration = <Array<Cell>> [];
-    voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-    expect(newConfiguration.length).toEqual(0);
+    let newConfiguration = doTurn(configuration)
+    expect(newConfiguration).toEqual([]);
 });
 
-it("Cas vivant et immobile", function () {
-    let voisins = <Array<Cell>> [];
+it("Cas 2: cellules vivantes et immobiles", function () {
     let configuration = <Array<Cell>> [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 5, y: 6},
         {x: 6, y: 6},
     ];
-    configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-    voisins = removeDuplicates(voisins)
-    let newConfiguration = <Array<Cell>> [];
-    voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-    expect(newConfiguration.length).toEqual(4);
+    let newConfiguration = doTurn(configuration)
+    expect(newConfiguration).toIncludeSameMembers(configuration);
 });
 
-it("Cas oscillation (- vers | vers -)", function () {
-    let voisins = <Array<Cell>> [];
+it("Cas 3: Oscillation (reprise de sa forme initiale - à | à -)", function () {
     let configuration = <Array<Cell>> [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 7, y: 5}
     ];
-    configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-    voisins = removeDuplicates(voisins)
-    let newConfiguration = <Array<Cell>> [];
-    voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-
-    newConfiguration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-    voisins = removeDuplicates(voisins)
-    let newConfigurationBis = <Array<Cell>> [];
-    voisins.map(voisin => (processCell(newConfiguration, voisin.x, voisin.y, checkIfVoisinExist(newConfiguration, voisin))) ? newConfigurationBis.push({x: voisin.x, y: voisin.y}) : null);
-
+    let newConfiguration = doTurn(configuration)
+    let newConfigurationBis = doTurn(newConfiguration)
     expect(newConfigurationBis).toIncludeSameMembers(configuration);
 });
 
-function initVie() {
+
+
+function doTurn(configuration: Array<Cell>): Array<Cell> {
     let voisins = <Array<Cell>> [];
     configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
     voisins = removeDuplicates(voisins)
     let newConfiguration = <Array<Cell>> [];
     voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-    configuration = newConfiguration
+    return newConfiguration
 }
 
 function processCell(configuration: Array<Cell>, cellX: number, cellY: number, isAlive: boolean): boolean {
