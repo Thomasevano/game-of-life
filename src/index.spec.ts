@@ -93,7 +93,25 @@ it("Cas 3: Oscillation (reprise de sa forme initiale - à | à -)", function () 
     expect(newConfigurationBis).toIncludeSameMembers(configuration);
 });
 
-
+it("Cas 4: Glider (cellules qui se déplacent)", function () {
+    let configuration = <Array<Cell>> [
+        {x: 5, y: 5},
+        {x: 6, y: 6},
+        {x: 6, y: 7},
+        {x: 5, y: 7},
+        {x: 4, y: 7}
+    ];
+    for (let i = 0; i < 6; i++) {
+        configuration = doTurn(configuration)
+    }
+    expect(configuration).toIncludeSameMembers([
+        {x: 5, y: 8},
+        {x: 6, y: 9},
+        {x: 7, y: 9},
+        {x: 7, y: 8},
+        {x: 7, y: 7}
+    ]);
+});
 
 function doTurn(configuration: Array<Cell>): Array<Cell> {
     let voisins = <Array<Cell>> [];
@@ -103,7 +121,6 @@ function doTurn(configuration: Array<Cell>): Array<Cell> {
     voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
     return newConfiguration
 }
-
 function processCell(configuration: Array<Cell>, cellX: number, cellY: number, isAlive: boolean): boolean {
     let nbVoisins = 0
     let voisins = getVoisins(cellX, cellY)
@@ -112,7 +129,6 @@ function processCell(configuration: Array<Cell>, cellX: number, cellY: number, i
         return true;
     }else return nbVoisins === 2 && isAlive;
 }
-
 function checkIfVoisinExist(configuration: Array<Cell>, voisin: Cell) {
     let isFound = false
     configuration.some(cell => (cell.x === voisin.x && cell.y === voisin.y) ? isFound = true : '');
@@ -130,7 +146,6 @@ function getVoisins(cellX: number, cellY: number): Array<Cell> {
         {x: cellX-1, y: cellY+1}
     ]
 }
-
 function removeDuplicates(voisins: Array<Cell>) {
     return voisins.reduce((unique, voisin) => {
         if(!unique.some(cell => cell.x === voisin.x && cell.y === voisin.y)) unique.push(voisin);
