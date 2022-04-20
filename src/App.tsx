@@ -36,7 +36,7 @@ function App() {
         <div className="App">
             <div className="App-header">
                 <Title>Le jeu de la vie</Title>
-                <SubTitle>Trame : { trame }</SubTitle>
+                <SubTitle>Trame : {trame}</SubTitle>
                 <Canvas configuration={currentConfiguration} previousConfiguration={previousConfiguration}/>
                     <div className="flex flex-row align-center items-center justify-start space-x-24">
                         <RefreshIcon className="w-10 text-blue-500 hover:cursor-pointer"
@@ -46,7 +46,7 @@ function App() {
                             :
                             <PlayIcon className="w-10 text-blue-500 hover:cursor-pointer" onClick={() => setPlaying(true)}/>
                         }
-                        <Text>Speed ({ speed })<br /><input type="range" min="1" max="10" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} /> </Text>
+                        <Text>Speed ({speed})<br /><input type="range" min="1" max="10" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} /> </Text>
                     </div>
             </div>
         </div>

@@ -1,8 +1,12 @@
-import React, {createRef, useEffect, useRef} from "react";
-import {Cell, Configuration} from "../core/core.types";
+import React, { useEffect, useRef } from "react";
+import { Cell, Configuration } from "../core/core.types";
 
-// @ts-ignore
-const Canvas = ({configuration, previousConfiguration}) => {
+type CanvasProps = {
+    configuration: Configuration;
+    previousConfiguration: Configuration;
+}
+
+const Canvas = ({configuration, previousConfiguration}: CanvasProps) => {
 
     const canvasRef = useRef(null)
 
