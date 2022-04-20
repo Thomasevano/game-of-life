@@ -10,7 +10,7 @@ const App = () => {
 
     const [playing, setPlaying] = useState(false)
     const [trame, setTrame] = useState(0)
-    const [speed, setSpeed] = useState(5)
+    const [speed, setSpeed] = useState(3)
     const [currentConfiguration, setCurrentConfiguration] = useState(gameOfLife.randomConfiguration())
     const [previousConfiguration, setPreviousConfiguration] = useState([])
 
@@ -25,6 +25,13 @@ const App = () => {
         return () => clearInterval(interval);
     }, [currentConfiguration, previousConfiguration, playing, trame, speed]);
 
+    // Réinitialisation du jeu + régénération de pattern aléatoire
+    function randomPattern() {
+        setPreviousConfiguration(currentConfiguration);
+        setCurrentConfiguration(gameOfLife.randomConfiguration());
+        setTrame(0)
+    }
+
     return (
         <div className="App">
             <div className="App-header">
@@ -33,11 +40,7 @@ const App = () => {
                 <Canvas configuration={currentConfiguration} previousConfiguration={previousConfiguration}/>
                     <div className="flex flex-row align-center items-center justify-start space-x-24">
                         <RefreshIcon className="w-10 text-blue-500 hover:cursor-pointer"
-                                     onClick={() => {
-                                         setPreviousConfiguration(currentConfiguration);
-                                         setCurrentConfiguration(gameOfLife.randomConfiguration());
-                                         setTrame(0)
-                                     }}/>
+                                     onClick={() => {randomPattern()}}/>
                         {playing ?
                             <PauseIcon className="w-10 text-blue-500 hover:cursor-pointer" onClick={() => setPlaying(false)}/>
                             :

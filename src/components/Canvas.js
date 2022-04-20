@@ -4,6 +4,7 @@ function Canvas({configuration, previousConfiguration}) {
 
     const canvasRef = useRef("canvas")
 
+    // Dessin de la configuration (suppression de l'ancienne configuration au préalable)
     useEffect(() => {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
