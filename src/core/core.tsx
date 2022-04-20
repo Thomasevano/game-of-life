@@ -2,7 +2,7 @@ import { Configuration, Cell } from "./core.types";
 // Coeur du jeu - Ces fonctions sont suffisantes pour faire fonctionner le jeu
 
 // Génère une configuration aléatoire, choix du nombre de cellules vivantes et de la taille du cadre possible
-export function randomConfiguration(cells: number = 1500, size: number = 150) {
+export function randomConfiguration(cells: number = 500, size: number = 150) {
     let configuration: Configuration = []
     for (let i = 0; i < cells; i++) {
         const x = (size/3) + Math.floor(Math.random() * (size/3))

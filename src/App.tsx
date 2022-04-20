@@ -12,7 +12,7 @@ function App() {
     const [trame, setTrame] = useState(0)
     const [speed, setSpeed] = useState(3)
     const [dimensions, setDimensions] = useState(150)
-    const [cells, setCells] = useState(1500)
+    const [cells, setCells] = useState(500)
     const [currentConfiguration, setCurrentConfiguration] = useState<Configuration>(randomConfiguration())
     const [previousConfiguration, setPreviousConfiguration] = useState<Configuration>([])
 
