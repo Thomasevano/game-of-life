@@ -17,10 +17,10 @@ const App = () => {
 
     return (
     <div className="App">
-      <header className="App-header">
-        <h2>Le jeu de la Vie</h2>
+      <div className="App-header">
+        <h2>Le jeu de la vie</h2>
         <Canvas configuration={currentConfiguration} setConfiguration={setCurrentConfiguration} previousConfiguration={previousConfiguration} setPreviousConfiguration={setPreviousConfiguration} />
-      </header>
+      </div>
     </div>
     );
 }
