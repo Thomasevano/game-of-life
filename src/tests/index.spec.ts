@@ -1,9 +1,9 @@
 // @ts-ignore
 import * as matchers from "jest-extended";
-import * as gameOfLife from '../core/core';
+import { getVoisins, doTurn, checkIfVoisinExist, randomConfiguration, removeDuplicates, processCell, Cell, Configuration } from '../core/core';
 expect.extend(matchers);
 
-let configuration: Array<gameOfLife.Cell> = [
+let configuration: Array<Cell> = [
     {x: 5, y: 5},
     {x: 5, y: 6},
     {x: 8, y: 7},
@@ -13,7 +13,7 @@ let configuration: Array<gameOfLife.Cell> = [
 ];
 
 it("Récupération Voisins", function () {
-  let voisins = gameOfLife.getVoisins(5, 5)
+  let voisins = getVoisins({x: 5, y: 5})
   expect(voisins).toEqual([
       {x: 5, y: 6},
       {x: 5, y: 4},
@@ -27,20 +27,19 @@ it("Récupération Voisins", function () {
 });
 
 it("Comptage voisins", function () {
-    let voisins: Array<gameOfLife.Cell> = [];
-    configuration.map(cell => voisins.push(...gameOfLife.getVoisins(cell.x, cell.y)));
+    let voisins: Configuration = configuration.map(getVoisins).flat();
     expect(voisins.length).toEqual(48);
 });
 
 it("Remove duplicates", function () {
-    let voisins: Array<gameOfLife.Cell> = [
+    let voisins: Configuration = [
         {x: 5, y: 5},
         {x: 5, y: 5},
         {x: 4, y: 5},
         {x: 7, y: 7},
         {x: 7, y: 7}
     ];
-    voisins = gameOfLife.removeDuplicates(voisins)
+    voisins = removeDuplicates(voisins)
     expect(voisins).toEqual([
         {x: 5, y: 5},
         {x: 4, y: 5},
@@ -49,47 +48,47 @@ it("Remove duplicates", function () {
 });
 
 it("Check if cell exists", function () {
-    const isFound = gameOfLife.checkIfVoisinExist(configuration, {x: 7, y: 7})
+    const isFound = checkIfVoisinExist(configuration, {x: 7, y: 7})
     expect(isFound).toEqual(true);
 
-    const isFoundTwo = gameOfLife.checkIfVoisinExist(configuration, {x: 7, y: 9})
+    const isFoundTwo = checkIfVoisinExist(configuration, {x: 7, y: 9})
     expect(isFoundTwo).toEqual(false);
 });
 
 it("Cas 1: Sous-population (décès des cellules)", function () {
-    let configuration: Array<gameOfLife.Cell> = [
+    let configuration: Configuration = [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 1, y: 1}
     ];
-    let newConfiguration = gameOfLife.doTurn(configuration)
+    let newConfiguration = doTurn(configuration)
     expect(newConfiguration).toEqual([]);
 });
 
 it("Cas 2: cellules vivantes et immobiles", function () {
-    let configuration: Array<gameOfLife.Cell> = [
+    let configuration: Configuration = [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 5, y: 6},
         {x: 6, y: 6},
     ];
-    let newConfiguration = gameOfLife.doTurn(configuration)
+    let newConfiguration = doTurn(configuration)
     expect(newConfiguration).toIncludeSameMembers(configuration);
 });
 
 it("Cas 3: Oscillation (reprise de sa forme initiale - à | à -)", function () {
-    let configuration: Array<gameOfLife.Cell> = [
+    let configuration: Configuration = [
         {x: 5, y: 5},
         {x: 6, y: 5},
         {x: 7, y: 5}
     ];
-    let newConfiguration = gameOfLife.doTurn(configuration)
-    let newConfigurationBis = gameOfLife.doTurn(newConfiguration)
+    let newConfiguration = doTurn(configuration)
+    let newConfigurationBis = doTurn(newConfiguration)
     expect(newConfigurationBis).toIncludeSameMembers(configuration);
 });
 
 it("Cas 4: Glider (cellules qui se déplacent)", function () {
-    let configuration: Array<gameOfLife.Cell> = [
+    let configuration: Configuration = [
         {x: 5, y: 5},
         {x: 6, y: 6},
         {x: 6, y: 7},
@@ -97,7 +96,7 @@ it("Cas 4: Glider (cellules qui se déplacent)", function () {
         {x: 4, y: 7}
     ];
     for (let i = 0; i < 6; i++) {
-        configuration = gameOfLife.doTurn(configuration)
+        configuration = doTurn(configuration)
     }
     expect(configuration).toIncludeSameMembers([
         {x: 5, y: 8},

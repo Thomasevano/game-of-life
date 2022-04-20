@@ -17,17 +17,13 @@ export function randomConfiguration(cells: number = 1500, size: number = 150) {
 }
 
 export function doTurn(configuration: Configuration): Configuration {
-  let voisins: Configuration = [];
-  configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
-  voisins = removeDuplicates(voisins)
-  let newConfiguration : Array<Cell> = [];
-  voisins.map(voisin => (processCell(configuration, voisin.x, voisin.y, checkIfVoisinExist(configuration, voisin))) ? newConfiguration.push({x: voisin.x, y: voisin.y}) : null);
-  return newConfiguration
+  let voisins: Configuration = removeDuplicates(configuration.map(getVoisins).flat())
+  return voisins.map(voisin => (processCell(configuration, voisin, checkIfVoisinExist(configuration, voisin))) ? ({x: voisin.x, y: voisin.y}) : null).filter(Boolean)
 }
 
-export function processCell(configuration: Configuration, cellX: number, cellY: number, isAlive: boolean): boolean {
+export function processCell(configuration: Configuration, cell: Cell, isAlive: boolean): boolean {
   let nbVoisins = 0
-  let voisins = getVoisins(cellX, cellY)
+  let voisins = getVoisins(cell)
   voisins.map(voisin => checkIfVoisinExist(configuration, voisin) ? nbVoisins++ : null);
   if (nbVoisins === 3) {
       return true;
@@ -40,7 +36,7 @@ export function checkIfVoisinExist(configuration: Configuration, voisin: Cell) {
   return isFound
 }
 
-export function getVoisins(cellX: number, cellY: number): Configuration {
+export function getVoisins({x: cellX, y: cellY}): Configuration {
   return [
       {x: cellX, y: cellY+1},
       {x: cellX, y: cellY-1},
