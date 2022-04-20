@@ -1,11 +1,23 @@
-
+// Coeur du jeu - Ces fonctions sont suffisantes pour faire fonctionner le jeu
 export interface Cell {
   x: number;
   y: number;
 }
 
-export function doTurn(configuration: Array<Cell>): Array<Cell> {
-  let voisins : Array<Cell> = [];
+export interface Configuration extends Array<Cell>{}
+
+export function randomConfiguration(cells: number = 500, limit: number = 600) {
+    let configuration: Configuration = []
+    for (let i = 0; i < cells; i++) {
+        const x = Math.floor(Math.random() * (limit/6))
+        const y = Math.floor(Math.random() * (limit/6))
+        configuration.push({x: x, y: y})
+    }
+    return configuration
+}
+
+export function doTurn(configuration: Configuration): Configuration {
+  let voisins: Configuration = [];
   configuration.map(cell => voisins.push(...getVoisins(cell.x, cell.y)));
   voisins = removeDuplicates(voisins)
   let newConfiguration : Array<Cell> = [];
@@ -13,7 +25,7 @@ export function doTurn(configuration: Array<Cell>): Array<Cell> {
   return newConfiguration
 }
 
-export function processCell(configuration: Array<Cell>, cellX: number, cellY: number, isAlive: boolean): boolean {
+export function processCell(configuration: Configuration, cellX: number, cellY: number, isAlive: boolean): boolean {
   let nbVoisins = 0
   let voisins = getVoisins(cellX, cellY)
   voisins.map(voisin => checkIfVoisinExist(configuration, voisin) ? nbVoisins++ : null);
@@ -22,13 +34,13 @@ export function processCell(configuration: Array<Cell>, cellX: number, cellY: nu
   }else return nbVoisins === 2 && isAlive;
 }
 
-export function checkIfVoisinExist(configuration: Array<Cell>, voisin: Cell) {
+export function checkIfVoisinExist(configuration: Configuration, voisin: Cell) {
   let isFound = false
   configuration.some(cell => (cell.x === voisin.x && cell.y === voisin.y) ? isFound = true : '');
   return isFound
 }
 
-export function getVoisins(cellX: number, cellY: number): Array<Cell> {
+export function getVoisins(cellX: number, cellY: number): Configuration {
   return [
       {x: cellX, y: cellY+1},
       {x: cellX, y: cellY-1},
@@ -41,7 +53,7 @@ export function getVoisins(cellX: number, cellY: number): Array<Cell> {
   ]
 }
 
-export function removeDuplicates(voisins: Array<Cell>) {
+export function removeDuplicates(voisins: Configuration) {
   return voisins.reduce((unique, voisin) => {
       if(!unique.some(cell => cell.x === voisin.x && cell.y === voisin.y)) unique.push(voisin);
       return unique;
