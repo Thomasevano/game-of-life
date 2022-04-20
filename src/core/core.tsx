@@ -1,10 +1,5 @@
+import { Configuration, Cell } from "./core.types";
 // Coeur du jeu - Ces fonctions sont suffisantes pour faire fonctionner le jeu
-export interface Cell {
-  x: number;
-  y: number;
-}
-
-export interface Configuration extends Array<Cell>{}
 
 // Génère une configuration aléatoire, choix du nombre de cellules vivantes et de la taille du cadre possible
 export function randomConfiguration(cells: number = 1500, size: number = 150) {
@@ -20,7 +15,7 @@ export function randomConfiguration(cells: number = 1500, size: number = 150) {
 // Réalise un tour de configuration (génération de la prochaine configuration à partir d'une configuration donnée)
 export function doTurn(configuration: Configuration): Configuration {
   let voisins: Configuration = removeDuplicates(configuration.map(getVoisins).flat())
-  return voisins.map(voisin => (processCell(configuration, voisin, checkIfVoisinExist(configuration, voisin))) ? ({x: voisin.x, y: voisin.y}) : null).filter(Boolean)
+  return voisins.map(voisin => (processCell(configuration, voisin, checkIfVoisinExist(configuration, voisin))) ? ({x: voisin.x, y: voisin.y}) : null).filter(Boolean) as Configuration
 }
 
 // Vérifie si une cellule (vivante ou non) pourra vivre sur la prochaine configuration
@@ -41,22 +36,22 @@ export function checkIfVoisinExist(configuration: Configuration, voisin: Cell) {
 }
 
 // Récupération des 8 cases adjacentes d'une cellule
-export function getVoisins({x: cellX, y: cellY}): Configuration {
+export function getVoisins(cell: Cell): Configuration {
   return [
-      {x: cellX, y: cellY+1},
-      {x: cellX, y: cellY-1},
-      {x: cellX+1, y: cellY},
-      {x: cellX-1, y: cellY},
-      {x: cellX-1, y: cellY-1},
-      {x: cellX+1, y: cellY+1},
-      {x: cellX+1, y: cellY-1},
-      {x: cellX-1, y: cellY+1}
+      {x: cell.x, y: cell.y+1},
+      {x: cell.x, y: cell.y-1},
+      {x: cell.x+1, y: cell.y},
+      {x: cell.x-1, y: cell.y},
+      {x: cell.x-1, y: cell.y-1},
+      {x: cell.x+1, y: cell.y+1},
+      {x: cell.x+1, y: cell.y-1},
+      {x: cell.x-1, y: cell.y+1}
   ]
 }
 
 // Supprime les possibles voisins doublons (pour éviter de les retester)
 export function removeDuplicates(voisins: Configuration) {
-  return voisins.reduce((unique, voisin) => {
+  return voisins.reduce((unique: Configuration, voisin: Cell) => {
       if(!unique.some(cell => cell.x === voisin.x && cell.y === voisin.y)) unique.push(voisin);
       return unique;
   },[]);

@@ -1,19 +1,22 @@
-import React, {useEffect, useRef} from "react";
+import React, {createRef, useEffect, useRef} from "react";
+import {Cell, Configuration} from "../core/core.types";
 
-function Canvas({configuration, previousConfiguration}) {
+// @ts-ignore
+const Canvas = ({configuration, previousConfiguration}) => {
 
-    const canvasRef = useRef("canvas")
+    const canvasRef = useRef(null)
 
     // Dessin de la configuration (suppression de l'ancienne configuration au préalable)
     useEffect(() => {
         const canvas = canvasRef.current
+        // @ts-ignore
         const context = canvas.getContext('2d')
 
         context.fillStyle = '#FFFFFF'
-        previousConfiguration.forEach(cell => context.fillRect(cell.x, cell.y, 1, 1))
+        previousConfiguration.forEach((cell: Cell) => context.fillRect(cell.x, cell.y, 1, 1))
 
         context.fillStyle = '#FF0000'
-        configuration.forEach(cell => context.fillRect(cell.x, cell.y, 1, 1))
+        configuration.forEach((cell: Cell) => context.fillRect(cell.x, cell.y, 1, 1))
     }, [configuration, previousConfiguration])
 
     return (

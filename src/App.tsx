@@ -1,24 +1,24 @@
 import Canvas from './components/Canvas';
-import * as gameOfLife from './core/core';
-import {useEffect, useState} from "react";
+import { randomConfiguration, doTurn } from './core/core';
+import { Configuration } from './core/core.types';
+import { useEffect, useState } from "react";
 import Title from "./components/Title";
-import {PauseIcon, PlayIcon, RefreshIcon} from '@heroicons/react/solid'
+import { PauseIcon, PlayIcon, RefreshIcon } from '@heroicons/react/solid'
 import SubTitle from "./components/SubTitle";
 import Text from "./components/Text";
-
-const App = () => {
+function App() {
 
     const [playing, setPlaying] = useState(false)
     const [trame, setTrame] = useState(0)
     const [speed, setSpeed] = useState(3)
-    const [currentConfiguration, setCurrentConfiguration] = useState(gameOfLife.randomConfiguration())
-    const [previousConfiguration, setPreviousConfiguration] = useState([])
+    const [currentConfiguration, setCurrentConfiguration] = useState<Configuration>(randomConfiguration())
+    const [previousConfiguration, setPreviousConfiguration] = useState<Configuration>([])
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (playing) {
                 setPreviousConfiguration(currentConfiguration)
-                setCurrentConfiguration(gameOfLife.doTurn(currentConfiguration))
+                setCurrentConfiguration(doTurn(currentConfiguration))
                 setTrame(trame + 1)
             }
         }, (300/speed));
@@ -28,7 +28,7 @@ const App = () => {
     // Réinitialisation du jeu + régénération de pattern aléatoire
     function randomPattern() {
         setPreviousConfiguration(currentConfiguration);
-        setCurrentConfiguration(gameOfLife.randomConfiguration());
+        setCurrentConfiguration(randomConfiguration());
         setTrame(0)
     }
 
@@ -46,11 +46,11 @@ const App = () => {
                             :
                             <PlayIcon className="w-10 text-blue-500 hover:cursor-pointer" onClick={() => setPlaying(true)}/>
                         }
-                        <Text>Speed ({ speed })<br /><input type="range" min="1" max="10" value={speed} onChange={(e) => setSpeed(e.target.value)} /> </Text>
+                        <Text>Speed ({ speed })<br /><input type="range" min="1" max="10" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} /> </Text>
                     </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App

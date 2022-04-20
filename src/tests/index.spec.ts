@@ -1,9 +1,11 @@
 // @ts-ignore
 import * as matchers from "jest-extended";
-import { getVoisins, doTurn, checkIfVoisinExist, randomConfiguration, removeDuplicates, processCell, Cell, Configuration } from '../core/core';
+import { getVoisins, doTurn, checkIfVoisinExist, removeDuplicates } from '../core/core';
+import { Configuration } from '../core/core.types';
+
 expect.extend(matchers);
 
-let configuration: Array<Cell> = [
+let configuration: Configuration = [
     {x: 5, y: 5},
     {x: 5, y: 6},
     {x: 8, y: 7},
