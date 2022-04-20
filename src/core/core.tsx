@@ -5,8 +5,8 @@ import { Configuration, Cell } from "./core.types";
 export function randomConfiguration(cells: number = 1500, size: number = 150) {
     let configuration: Configuration = []
     for (let i = 0; i < cells; i++) {
-        const x = Math.floor(Math.random() * (size))
-        const y = Math.floor(Math.random() * (size))
+        const x = (size/3) + Math.floor(Math.random() * (size/3))
+        const y = (size/3) + Math.floor(Math.random() * (size/3))
         configuration.push({x: x, y: y})
     }
     return configuration
