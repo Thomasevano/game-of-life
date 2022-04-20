@@ -6,11 +6,11 @@ export interface Cell {
 
 export interface Configuration extends Array<Cell>{}
 
-export function randomConfiguration(cells: number = 1500, limit: number = 900) {
+export function randomConfiguration(cells: number = 1500, size: number = 150) {
     let configuration: Configuration = []
     for (let i = 0; i < cells; i++) {
-        const x = Math.floor(Math.random() * (limit/6))
-        const y = Math.floor(Math.random() * (limit/6))
+        const x = Math.floor(Math.random() * (size))
+        const y = Math.floor(Math.random() * (size))
         configuration.push({x: x, y: y})
     }
     return configuration
