@@ -22,7 +22,7 @@ const Canvas = ({configuration, previousConfiguration, dimensions}: CanvasProps)
 
         context.fillStyle = '#FF0000'
         configuration.forEach((cell: Cell) => context.fillRect(cell.x, cell.y, 1, 1))
-    }, [configuration, previousConfiguration])
+    }, [configuration, previousConfiguration, dimensions])
 
     return (
         <canvas ref={canvasRef} width={dimensions} height={dimensions} className="border-cyan-400 border-2 bg-amber-50" style={{height: '500px', width: '500px'}}></canvas>
