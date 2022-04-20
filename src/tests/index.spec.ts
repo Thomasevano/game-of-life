@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as matchers from "jest-extended";
-import * as gameOfLife from './index';
+import * as gameOfLife from '../core/core';
 expect.extend(matchers);
 
 let configuration: Array<gameOfLife.Cell> = [
