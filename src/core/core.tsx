@@ -2,7 +2,7 @@ import { Configuration, Cell } from "./core.types";
 // Coeur du jeu - Ces fonctions sont suffisantes pour faire fonctionner le jeu
 
 // Génère une configuration aléatoire, choix du nombre de cellules vivantes et de la taille du cadre possible
-export function randomConfiguration(cells: number = 500, size: number = 150) {
+export function randomConfiguration(cells: number = 500, size: number = 150): Configuration {
   const configuration: Configuration = []
   for (let i = 0; i < cells; i++) {
     const x = (size / 3) + Math.floor(Math.random() * (size / 3))
@@ -31,7 +31,7 @@ export function processCell(configuration: Configuration, cell: Cell, isAlive: b
 }
 
 // Vérifie si la case adjacente est vivante dans la configuration actuelle
-export function checkIfVoisinExist(configuration: Configuration, voisin: Cell) {
+export function checkIfVoisinExist(configuration: Configuration, voisin: Cell): boolean {
   let isFound = false
   configuration.some(cell => (cell.x === voisin.x && cell.y === voisin.y) ? isFound = true : '');
   return isFound
@@ -52,7 +52,7 @@ export function getVoisins(cell: Cell): Configuration {
 }
 
 // Supprime les possibles voisins doublons (pour éviter de les retester)
-export function removeDuplicates(voisins: Configuration) {
+export function removeDuplicates(voisins: Configuration): Configuration {
   return voisins.reduce((unique: Configuration, voisin: Cell) => {
     if (!unique.some(cell => cell.x === voisin.x && cell.y === voisin.y)) unique.push(voisin);
     return unique;

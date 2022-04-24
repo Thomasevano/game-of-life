@@ -27,11 +27,12 @@ function App() {
   }, [currentConfiguration, previousConfiguration, playing, trame, speed]);
 
   // Réinitialisation du jeu + régénération de pattern aléatoire
-  function randomPattern(cells: number, dimensions: number) {
+  useEffect(() => {
     setPreviousConfiguration(currentConfiguration);
     setCurrentConfiguration(randomConfiguration(cells, dimensions));
     setTrame(0)
-  }
+  }, [cells, dimensions])
+
 
   return (
     <div className="App">
@@ -40,12 +41,10 @@ function App() {
         <SubTitle>Trame : {trame}</SubTitle>
         <Canvas configuration={currentConfiguration} previousConfiguration={previousConfiguration} dimensions={dimensions} />
         <Controls
-          randomPattern={randomPattern}
           speed={speed}
           setSpeed={setSpeed}
           playing={playing}
           setPlaying={setPlaying}
-          dimensions={dimensions}
           setDimensions={setDimensions}
           cells={cells}
           setCells={setCells}
