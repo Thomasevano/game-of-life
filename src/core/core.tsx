@@ -14,8 +14,18 @@ export function randomConfiguration(cells: number = 500, size: number = 150): Co
 
 // Réalise un tour de configuration (génération de la prochaine configuration à partir d'une configuration donnée)
 export function doTurn(configuration: Configuration): Configuration {
-  const voisins: Configuration = removeDuplicates(configuration.map(getVoisins).flat())
-  return voisins.map(voisin => (processCell(configuration, voisin, checkIfVoisinExist(configuration, voisin))) ? ({ x: voisin.x, y: voisin.y }) : null).filter(Boolean) as Configuration
+  const actualGeneration: Configuration = removeDuplicates(getNeighborsOfEachCell(configuration));
+  const nextGeneration: Configuration = actualGeneration.map(cell => (getCellCoordsForNextGen(configuration, cell) as Cell)).filter(Boolean);
+
+  return nextGeneration;
+}
+
+export const getNeighborsOfEachCell = (configuration: Configuration): Configuration => {
+  return configuration.map(getVoisins).flat()
+}
+
+export const getCellCoordsForNextGen = (generation: Configuration, cell: Cell): Cell | null => {
+  return processCell(generation, cell, checkIfVoisinExist(generation, cell)) ? ({ x: cell.x, y: cell.y }) : null;
 }
 
 // Vérifie si une cellule (vivante ou non) pourra vivre sur la prochaine configuration
@@ -38,7 +48,7 @@ export function checkIfVoisinExist(configuration: Configuration, voisin: Cell): 
 }
 
 // Récupération des 8 cases adjacentes d'une cellule
-export function getVoisins(cell: Cell): Configuration {
+export function getVoisins(cell: Cell ): Configuration {
   return [
     { x: cell.x, y: cell.y + 1 },
     { x: cell.x, y: cell.y - 1 },
