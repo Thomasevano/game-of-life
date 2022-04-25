@@ -1,46 +1,30 @@
-import {PauseIcon, PlayIcon, RefreshIcon} from "@heroicons/react/solid";
-import Text from "./Text";
+import DimensionsInput from "./DimensionsInput";
+import PlayPauseButton from "./PlayPauseButton";
+import Input from "./Input";
 
 type ControlsProps = {
-    randomPattern: Function;
-    speed: number;
-    setSpeed: Function;
-    playing: Boolean;
-    setPlaying: Function;
-    dimensions: number;
-    setDimensions: Function;
-    cells: number;
-    setCells: Function;
+  speed: number;
+  setSpeed: Function;
+  playing: Boolean;
+  setPlaying: Function;
+  setDimensions: Function;
+  cells: number;
+  setCells: Function;
 }
 
-const Controls = ({randomPattern, speed, setSpeed, playing, setPlaying, dimensions, setDimensions, cells, setCells}: ControlsProps) => {
-    return (
-        <div className="flex flex-row align-center items-center justify-center space-x-5">
-            <RefreshIcon className="w-10 text-blue-500 hover:cursor-pointer"
-                         onClick={() => {randomPattern(cells, dimensions)}}/>
+const Controls = ({ speed, setSpeed, playing, setPlaying, setDimensions, cells, setCells }: ControlsProps) => {
+  return (
+    <div className="flex flex-row align-center items-center justify-center space-x-5">
 
-            {playing ?
-                <PauseIcon className="w-10 text-blue-500 hover:cursor-pointer" onClick={() => setPlaying(false)}/>
-                :
-                <PlayIcon className="w-10 text-blue-500 hover:cursor-pointer" onClick={() => setPlaying(true)}/>
-            }
+      <PlayPauseButton playing={playing} setPlaying={setPlaying} />
 
-            <Text>Speed ({speed})<br /><input type="range" min="1" max="10" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} /> </Text>
+      <Input value={speed} setValue={setSpeed} type="range" min={1} max={10} label="Speed" />
 
-            <Text>Dimensions<br />
-                <select onChange={(e) => setDimensions(parseInt(e.target.value))}>
-                    <option value="150">150x150</option>
-                    <option value="300">300x300</option>
-                    <option value="600">600x600</option>
-                    <option value="1200">1200x1200</option>
-                </select>
-            </Text>
+      <DimensionsInput setDimensions={setDimensions} />
 
-            <Text className="w-2/12">Cellules<br />
-                <input className="w-full" type="number" min="0" value={cells} onChange={(e) => setCells(parseInt(e.target.value))} />
-            </Text>
-        </div>
-    )
+      <Input value={cells} setValue={setCells} type="number" min={0} max={100000000} label="Cellules" />
+    </div>
+  )
 }
 
 export default Controls
