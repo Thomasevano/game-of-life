@@ -25,7 +25,7 @@ const Canvas = ({ configuration, previousConfiguration, dimensions }: CanvasProp
   }, [configuration, previousConfiguration, dimensions])
 
   return (
-    <canvas ref={canvasRef} width={dimensions} height={dimensions} className="border-cyan-400 border-2 bg-amber-50" style={{ height: '500px', width: '500px' }}></canvas>
+    <canvas ref={canvasRef} width={dimensions} height={dimensions} className="border-cyan-400 border-2 bg-amber-50" style={{ height: '700px', width: '700px' }}></canvas>
   );
 }
 
