@@ -29,15 +29,20 @@ export const getCellCoordsForNextGen = (generation: Configuration, cell: Cell): 
 }
 
 // Vérifie si une cellule (vivante ou non) pourra vivre sur la prochaine configuration
-export function processCell(configuration: Configuration, cell: Cell, isAlive: boolean): boolean {
-  let nbVoisins = 0
-  const voisins = getVoisins(cell)
-  voisins.map(voisin => checkIfVoisinExist(configuration, voisin) ? nbVoisins++ : null);
-  if (nbVoisins === 3) {
+export const processCell = (generation: Configuration, cell: Cell, isAlive: boolean): boolean => {
+  const nbNeighbors = countAliveNeighborsOfaCell(cell, generation);
+  if (nbNeighbors === 3) {
     return true;
   }
   else
-    return nbVoisins === 2 && isAlive;
+    return nbNeighbors === 2 && isAlive;
+}
+
+export const countAliveNeighborsOfaCell = (cell: Cell, configuration: Configuration): number => {
+  let nbAliveNeighbors = 0;
+  const neighbors = getVoisins(cell);
+  neighbors.forEach(neighbor => checkIfVoisinExist(configuration, neighbor) ? nbAliveNeighbors++ : null);
+  return nbAliveNeighbors;
 }
 
 // Vérifie si la case adjacente est vivante dans la configuration actuelle
