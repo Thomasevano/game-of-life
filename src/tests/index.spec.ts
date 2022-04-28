@@ -151,4 +151,21 @@ describe('#doTurn', function () {
       { x: 7, y: 7 }
     ]);
   });
-})
+});
+
+describe('#countAliveNeighborsOfaCell', function () {
+  it('should count alive neighbors of a cell', function () {
+    // given
+    const cell: Cell = { x: 0, y: 0 }
+    const generation: Configuration = [
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+    ]
+
+    // when
+    const aliveNeighbors = countAliveNeighborsOfaCell(cell, generation)
+    
+    expect(aliveNeighbors).toEqual(2);
+  })
+});
+
