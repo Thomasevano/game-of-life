@@ -47,9 +47,7 @@ export const countAliveNeighborsOfaCell = (cell: Cell, configuration: Configurat
 
 // Vérifie si la case adjacente est vivante dans la configuration actuelle
 export function checkIfVoisinExist(configuration: Configuration, voisin: Cell): boolean {
-  let isFound = false
-  configuration.some(cell => (cell.x === voisin.x && cell.y === voisin.y) ? isFound = true : '');
-  return isFound
+  return !!configuration.some(cell => (cell.x === voisin.x && cell.y === voisin.y));
 }
 
 // Récupération des 8 cases adjacentes d'une cellule
