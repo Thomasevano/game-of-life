@@ -116,11 +116,12 @@ describe('#processCell', function () {
   });
 });
 
-  it("Cas 3: Oscillation (reprise de sa forme initiale - à | à -)", function () {
+describe('#doTurn', function () {
+  it("should Oscillation (reprise de sa forme initiale - à | à -)", function () {
     const configuration: Configuration = [
-      { x: 5, y: 5 },
-      { x: 6, y: 5 },
-      { x: 7, y: 5 }
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 2, y: 0 }
     ];
 
     const newConfiguration = doTurn(configuration)
