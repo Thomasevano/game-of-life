@@ -1,39 +1,40 @@
 // @ts-ignore
 import * as matchers from "jest-extended";
-import { getVoisins, doTurn, checkIfVoisinExist, removeDuplicates } from '../core/core';
-import { Configuration } from '../core/core.types';
+import { getVoisins, doTurn, checkIfVoisinExist, removeDuplicates, processCell, countAliveNeighborsOfaCell, getNeighborsOfEachCell } from '../core/core';
+import { Cell, Configuration } from '../core/core.types';
 
 expect.extend(matchers);
 
-const configuration: Configuration = [
-  { x: 5, y: 5 },
-  { x: 5, y: 6 },
-  { x: 8, y: 7 },
-  { x: 8, y: 8 },
-  { x: 7, y: 7 },
-  { x: 7, y: 8 }
-];
-
 describe('#getVoisins', function () {
-  it("should get neighbors of a cell", function () {
-    const voisins = getVoisins({ x: 5, y: 5 })
+  let cell: Cell;
 
-    expect(voisins).toEqual([
-      { x: 5, y: 6 },
-      { x: 5, y: 4 },
-      { x: 6, y: 5 },
-      { x: 4, y: 5 },
-      { x: 4, y: 4 },
-      { x: 6, y: 6 },
-      { x: 6, y: 4 },
-      { x: 4, y: 6 },
+  beforeEach(function () {
+    cell = { x: 0, y: 0 }
+  });
+
+  it("should get neighbors of a cell", function () {
+    // when
+    const neighbors = getVoisins(cell)
+
+    // then
+    expect(neighbors).toIncludeAllMembers([
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 1, y: -1 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+      { x: -1, y: 1 },
+      { x: -1, y: 0 },
+      { x: -1, y: 1 },
     ]);
   });
 
   it("should count neighbors of a cell", function () {
-    const voisins: Configuration = configuration.map(getVoisins).flat();
+    // when
+    const neighbors: number = getVoisins(cell).length;
 
-    expect(voisins.length).toEqual(48);
+    // then
+    expect(neighbors).toBe(8);
   });
 })
 
@@ -58,14 +59,24 @@ describe('#removeDuplicates', function () {
 })
 
 describe('#checkIfVoisinExist', function () {
+
+  let generation: Configuration;
+
+  beforeEach(function () {
+    generation = [
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+    ]
+  })
+
   it("should have a neighbor", function () {
-    const isFound = checkIfVoisinExist(configuration, { x: 7, y: 7 })
+    const isFound = checkIfVoisinExist(generation, { x: 0, y: 0 })
 
     expect(isFound).toEqual(true);
   });
 
   it("should not have a neighbor", function () {
-    const isFoundTwo = checkIfVoisinExist(configuration, { x: 7, y: 9 })
+    const isFoundTwo = checkIfVoisinExist(generation, { x: 7, y: 9 })
 
     expect(isFoundTwo).toEqual(false);
   });
