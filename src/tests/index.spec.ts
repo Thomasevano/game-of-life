@@ -72,13 +72,13 @@ describe('#checkIfVoisinExist', function () {
   it("should have a neighbor", function () {
     const isFound = checkIfVoisinExist(generation, { x: 0, y: 0 })
 
-    expect(isFound).toEqual(true);
+    expect(isFound).toBe(true);
   });
 
   it("should not have a neighbor", function () {
     const isFoundTwo = checkIfVoisinExist(generation, { x: 7, y: 9 })
 
-    expect(isFoundTwo).toEqual(false);
+    expect(isFoundTwo).toBe(false);
   });
 })
 
