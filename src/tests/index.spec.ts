@@ -82,31 +82,39 @@ describe('#checkIfVoisinExist', function () {
   });
 })
 
-describe('#doTurn', function () {
-  it("should kill any cell with fewer than two live neighbours, as if by underpopulation", function () {
-    const configuration: Configuration = [
-      { x: 5, y: 5 },
-      { x: 6, y: 5 },
-      { x: 1, y: 1 }
-    ];
+describe('#processCell', function () {
 
-    const newConfiguration = doTurn(configuration)
+  let generation: Configuration;
 
-    expect(newConfiguration).toEqual([]);
+  beforeEach(function () {
+    generation = [
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 1, y: -1 },
+      { x: 0, y: 1 },
+      { x: 0, y: 0 },
+      { x: 0, y: -1 },
+      { x: -1, y: 1 },
+      { x: -1, y: 0 },
+    ]
+  });
+
+  it("should kill the cell if fewer than two live neighbours, as if by underpopulation", function () {
+    const cell: Cell = { x: 2, y: 2 };
+
+    const cellStatusAtNewGeneration = processCell(generation, cell, true)
+
+    expect(cellStatusAtNewGeneration).toBe(false);
   });
 
   it("should keep alive any live cell with two or three live neighbours", function () {
-    const configuration: Configuration = [
-      { x: 5, y: 5 },
-      { x: 6, y: 5 },
-      { x: 5, y: 6 },
-      { x: 6, y: 6 },
-    ];
+    const cell: Cell = { x: 1, y: 2 };
 
-    const newConfiguration = doTurn(configuration)
+    const newConfiguration = processCell(generation, cell, true)
 
-    expect(newConfiguration).toIncludeSameMembers(configuration);
+    expect(newConfiguration).toBe(true);
   });
+});
 
   it("Cas 3: Oscillation (reprise de sa forme initiale - à | à -)", function () {
     const configuration: Configuration = [
