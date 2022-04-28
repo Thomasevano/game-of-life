@@ -40,20 +40,20 @@ describe('#getVoisins', function () {
 
 describe('#removeDuplicates', function () {
   it("should remove duplicated cells", function () {
+    // given
     let voisins: Configuration = [
-      { x: 5, y: 5 },
-      { x: 5, y: 5 },
-      { x: 4, y: 5 },
-      { x: 7, y: 7 },
-      { x: 7, y: 7 }
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: 1 }
     ];
 
+    // when
     voisins = removeDuplicates(voisins)
 
-    expect(voisins).toEqual([
-      { x: 5, y: 5 },
-      { x: 4, y: 5 },
-      { x: 7, y: 7 }
+    // then
+    expect(voisins).toIncludeAllMembers([
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
     ]);
   });
 })
