@@ -164,8 +164,37 @@ describe('#countAliveNeighborsOfaCell', function () {
 
     // when
     const aliveNeighbors = countAliveNeighborsOfaCell(cell, generation)
-    
+
     expect(aliveNeighbors).toEqual(2);
   })
 });
 
+describe('#getNeighborsOfEachCell', function () {
+  it('should return neighbors of all cells', function () {
+    // given
+    const generation: Configuration = [
+      { x: 0, y: 0 },
+      { x: 2, y: 2 },
+    ]
+
+    // when
+    const neighbors = getNeighborsOfEachCell(generation);
+
+    // then\
+    expect(neighbors).toIncludeAllMembers([
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 1, y: -1 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+      { x: -1, y: 1 },
+      { x: -1, y: 0 },
+      { x: 3, y: 2 },
+      { x: 3, y: 1 },
+      { x: 2, y: 3 },
+      { x: 2, y: 1 },
+      { x: 1, y: 3 },
+      { x: 1, y: 2 },
+    ])
+  });
+});
