@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as matchers from "jest-extended";
-import { getVoisins, doTurn, checkIfVoisinExist, removeDuplicates, processCell, countAliveNeighborsOfaCell, getNeighborsOfEachCell } from '../core/core';
+import { getVoisins, doTurn, checkIfVoisinExist, removeDuplicates, processCell, countAliveNeighborsOfaCell, getNeighborsOfEachCell, getCellCoordsForNextGen } from '../core/core';
 import { Cell, Configuration } from '../core/core.types';
 
 expect.extend(matchers);
@@ -196,5 +196,38 @@ describe('#getNeighborsOfEachCell', function () {
       { x: 1, y: 3 },
       { x: 1, y: 2 },
     ])
+  });
+});
+
+describe('#getCellCoordsForNextGen', function () {
+  let generation: Configuration;
+
+  beforeEach(function () {
+    generation = [
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 1, y: -1 },
+      { x: 0, y: 1 },
+      { x: 0, y: 0 },
+      { x: 0, y: -1 },
+      { x: -1, y: 1 },
+      { x: -1, y: 0 },
+    ]
+  });
+
+  it('should get cell coordinates if alive in next generation', function () {
+    const cell: Cell = { x: 0, y: 2 };
+
+    const nextGenerationCoordinates = getCellCoordsForNextGen(generation, cell);
+
+    expect(nextGenerationCoordinates).toMatchObject({ x: 0, y: 2 });
+  });
+
+  it('should get null if cell not alive in next generation', function () {
+    const cell: Cell = { x: 0, y: 1 };
+
+    const nextGenerationCoordinates = getCellCoordsForNextGen(generation, cell);
+
+    expect(nextGenerationCoordinates).toBeNull();
   });
 });
