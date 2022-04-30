@@ -31,7 +31,7 @@ function App() {
     previousGenerationRef.current = currentConfiguration;
     setCurrentConfiguration(randomConfiguration(cells, dimensions));
     setTrame(0)
-  }, [cells, dimensions])
+  }, [cells])
 
   return (
     <div className="App">
