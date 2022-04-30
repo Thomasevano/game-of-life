@@ -18,10 +18,10 @@ const Canvas = ({ configuration, previousConfiguration, dimensions }: CanvasProp
     const context = canvas.getContext('2d')
 
     context.fillStyle = '#FFFFFF'
-    previousConfiguration.forEach((cell: Cell) => context.fillRect(cell.x, cell.y, 1, 1))
+    previousConfiguration.forEach((cell: Cell) => context.fillRect(cell[0], cell[1], 1, 1))
 
     context.fillStyle = '#FF0000'
-    configuration.forEach((cell: Cell) => context.fillRect(cell.x, cell.y, 1, 1))
+    configuration.forEach((cell: Cell) => context.fillRect(cell[0], cell[1], 1, 1))
   }, [configuration, previousConfiguration, dimensions])
 
   return (

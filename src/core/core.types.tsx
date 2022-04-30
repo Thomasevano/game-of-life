@@ -1,6 +1,3 @@
-export interface Cell {
-  x: number;
-  y: number;
-}
+export interface Cell extends Array<number> { }
 
 export interface Configuration extends Array<Cell> { }
