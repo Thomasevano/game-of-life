@@ -38,7 +38,7 @@ function App() {
       <div className="App-header">
         <Title>Le jeu de la vie</Title>
         <SubTitle>Trame : {trame}</SubTitle>
-        <Canvas configuration={currentConfiguration} previousGenerationRef={previousGenerationRef.current} dimensions={dimensions} />
+        <Canvas configuration={currentConfiguration} previousGenerationRef={previousGenerationRef.current} dimensions={dimensions} trame={trame} />
         <Controls
           speed={speed}
           setSpeed={setSpeed}

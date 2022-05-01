@@ -5,9 +5,10 @@ type CanvasProps = {
   configuration: Configuration;
   previousGenerationRef: Configuration;
   dimensions: number;
+  trame: number;
 }
 
-const Canvas = ({ configuration, previousGenerationRef, dimensions }: CanvasProps) => {
+const Canvas = ({ configuration, previousGenerationRef, dimensions, trame }: CanvasProps) => {
 
   const canvasRef = useRef(null)
 
@@ -17,8 +18,13 @@ const Canvas = ({ configuration, previousGenerationRef, dimensions }: CanvasProp
     // @ts-ignore
     const context = canvas.getContext('2d')
 
-    context.fillStyle = '#FFFFFF'
-    previousGenerationRef.forEach((cell: Cell) => context.fillRect(cell[0], cell[1], 1, 1))
+    if (trame === 0) {
+      context.clearRect(0, 0, dimensions, dimensions)
+    }
+    else {
+      context.fillStyle = '#FFFFFF'
+      previousGenerationRef.forEach((cell: Cell) => context.fillRect(cell[0], cell[1], 1, 1))
+    }
 
     context.fillStyle = '#FF0000'
     configuration.forEach((cell: Cell) => context.fillRect(cell[0], cell[1], 1, 1))
