@@ -22,7 +22,7 @@ const Controls = ({ speed, setSpeed, playing, setPlaying, setDimensions, cells, 
 
       <DimensionsInput setDimensions={setDimensions} />
 
-      <Input value={cells} setValue={setCells} type="number" min={0} max={100000000} label="Cellules" />
+      <Input value={cells} setValue={setCells} type="number" min={0} max={100000} label="Cellules" />
     </div>
   )
 }
